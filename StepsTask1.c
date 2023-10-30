@@ -53,14 +53,16 @@ int main() {
     int entry_counter = 0;
     int buffer_size = 100;
     char line_buffer[buffer_size];
-
+    char steps_buffer[10];
     while (fgets(line_buffer, buffer_size, file) != NULL) {
-        tokeniseRecord(line_buffer,",",data[entry_counter].date,data[entry_counter].time,itoa(data[entry_counter].steps));
+        // needs to write steps to a string, then convert string into int to store in FITNESS DATA
+        tokeniseRecord(line_buffer,",",data[entry_counter].date,data[entry_counter].time,steps_buffer);
+        data[entry_counter].steps = atoi(steps_buffer);
         entry_counter ++;
     }
     printf("Number of records in file: %d\n" , entry_counter);
     for(int i = 0; i < 3; i++) {
-        printf("%s/%s/%s\n", data[i].date, data[i].time, data[i].steps);
+        printf("%s/%s/%d\n", data[i].date, data[i].time, data[i].steps);
     }
     fclose(file);
 }

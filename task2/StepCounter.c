@@ -56,5 +56,5 @@ int total_records(char filename[50]) {
         total_records ++;
     }
     fclose(file);
-    return total_records
+    return total_records;
 }

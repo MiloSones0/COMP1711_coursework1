@@ -1,8 +1,49 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "./FitnessDataStruct.h"
+
+int total_records(char filename[50]);
+int menu();
+FILE *open_file(char *filename, char *mode);
+
 
 int main(){
+    while(menu());
+}
+
+
+int total_records(char filename[50]) {
+    // add error checking for file probably in seperate function.
+    int buffer_size = 100;
+    char line_buffer[buffer_size];
+    int total_records = 0;
+    FILE *file = fopen (filename, "a+");
+    while (fgets(line_buffer, buffer_size, file)) {
+        total_records ++;
+    }
+    fclose(file);
+    return total_records;
+}
+
+int fewest_steps(char filename[50]) {
+    return 0;
+}
+
+FILE *open_file(char *filename, char *mode)
+{
+    FILE *file = fopen(filename, mode);
+    if (file == NULL)
+    {
+        // change to repromt user and also add checking data is correct format
+        printf("Error opening file\n");
+        exit(1);
+    }
+    return file;
+}
+
+
+int menu() {
     char filename[50]; 
     char input[1];
     printf("A: Specify the filename to be imported\n"
@@ -17,7 +58,6 @@ int main(){
     if(!strcmp(input, "A")) {
         printf("Input filename:");
         scanf("%s", filename);
-
     }
     else if(!strcmp(input, "B")) {
         printf("Total records: %d", total_records(filename));
@@ -42,19 +82,5 @@ int main(){
     else {
         printf("Invalid input\n");
     }
-    return 0;
-}
-
-
-int total_records(char filename[50]) {
-    // add error checking for file probably in seperate function.
-    int buffer_size = 100;
-    char line_buffer[buffer_size];
-    int total_records = 0;
-    FILE *file = fopen (filename, "a+");
-    while (fgets(line_buffer, buffer_size, file)) {
-        total_records ++;
-    }
-    fclose(file);
-    return total_records;
+    return 1;
 }

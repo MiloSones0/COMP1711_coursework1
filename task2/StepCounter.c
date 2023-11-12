@@ -11,7 +11,7 @@ FILE *open_file();
 
 int main(){
     FILE * file;
-    while(menu());
+    while(menu(file));
 
 }
 

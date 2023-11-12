@@ -57,7 +57,8 @@ int menu(FILE * file) {
         "E: Find the mean step count of all the records in the file\n"
         "F: Find the longest continuous period where the step count is above 500 steps\n"
         "Q: Quit\n");
-
+    // Add check that a file has been provided and is valid before allowing any other function to run
+    // have a valid bool that is default value false and is updated when open_file is called and check in each if breanch.
     scanf("%s", input);
     if(!strcmp(input, "A")) {
         file = open_file();

@@ -3,48 +3,52 @@
 #include <string.h>
 #include "./FitnessDataStruct.h"
 
-int total_records(char filename[50]);
-int menu();
-FILE *open_file(char *filename, char *mode);
+int total_records(FILE * file);
+int menu(FILE * file);
+int fewest_steps(FILE * file);
+FILE *open_file();
 
 
 int main(){
+    FILE * file;
     while(menu());
+
 }
 
 
-int total_records(char filename[50]) {
+int total_records(FILE * file) {
     // add error checking for file probably in seperate function.
+    // change to use open_file func at some point
     int buffer_size = 100;
     char line_buffer[buffer_size];
     int total_records = 0;
-    FILE *file = fopen (filename, "a+");
     while (fgets(line_buffer, buffer_size, file)) {
         total_records ++;
     }
-    fclose(file);
     return total_records;
 }
 
-int fewest_steps(char filename[50]) {
+int fewest_steps(FILE * file) {
     return 0;
 }
 
-FILE *open_file(char *filename, char *mode)
-{
-    FILE *file = fopen(filename, mode);
+FILE *open_file() {
+    char filename[50];
+    printf("Input filename:");
+    scanf("%s", filename); 
+    FILE *file = fopen(filename, "r");
     if (file == NULL)
     {
         // change to repromt user and also add checking data is correct format
         printf("Error opening file\n");
-        exit(1);
+        printf("Make sure filename is correct\n");
+        return 0;
     }
     return file;
 }
 
 
-int menu() {
-    char filename[50]; 
+int menu(FILE * file) {
     char input[1];
     printf("A: Specify the filename to be imported\n"
         "B: Display the total number of records in the file\n"
@@ -56,11 +60,10 @@ int menu() {
 
     scanf("%s", input);
     if(!strcmp(input, "A")) {
-        printf("Input filename:");
-        scanf("%s", filename);
+        file = open_file();
     }
     else if(!strcmp(input, "B")) {
-        printf("Total records: %d", total_records(filename));
+        printf("Total records: %d", total_records(file));
 
     }
     else if(!strcmp(input, "C")) {

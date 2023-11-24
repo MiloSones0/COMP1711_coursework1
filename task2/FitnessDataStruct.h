@@ -14,31 +14,17 @@ typedef struct {
 	int steps;
 } FITNESS_DATA;
 
+typedef struct {
+	int mean;
+	char fewestSteps[50];
+	char largestSteps[50];
+	char startDate[50];
+	char endDate[50];
+} ANALYSED_DATA;
+
 // Helper function prototypes
-void tokeniseRecord(const char *input, const char *delimiter, char *date, char *time, char *steps) {
-    // Create a copy of the input string as strtok modifies the string
-    char *inputCopy = strdup(input);
-    
-    // Tokenize the copied string
-    char *token = strtok(inputCopy, delimiter);
-    if (token != NULL) {        strcpy(date, token);
-    }
-    
-    token = strtok(NULL, delimiter);
-    if (token != NULL) {
-        strcpy(time, token);
-    }
-    
-    token = strtok(NULL, delimiter);
-    if (token != NULL) {
-        strcpy(steps, token);
-    }
-    
-    // Free the duplicated string
-    free(inputCopy);
-
-}
-
+void tokeniseRecord(const char *input, const char *delimiter, char *date, char *time, char *steps);
+void gatherData(FITNESS_DATA * fitnessDataArray,ANALYSED_DATA *data, int lines);
 
 
 
@@ -64,25 +50,5 @@ int fewest_steps(FILE * file);
  * @returns number of lines in the file as int or 0 if error opening file
  */
 
-int open_file(FITNESS_DATA * fitnessDataArray) {
-    char filename[50];
-	char line[buffer_size];
-	int linesCounter;
-    printf("Input filename: ");
-    scanf("%s", filename); 
-    FILE *file = fopen(filename, "r");
-    if (file == NULL)
-    {
-        printf("Error: Could not find or open the file.\n");
-        return 0;
-    }
-	while (fgets(line, buffer_size, file)){
-		char steps[8];
-		tokeniseRecord(line, ",", fitnessDataArray[linesCounter].date, fitnessDataArray[linesCounter].time, steps);
-		fitnessDataArray[linesCounter].steps = atoi(steps);
-		linesCounter ++;
-	}
-    return linesCounter;
-}
-
+int open_file(FITNESS_DATA * fitnessDataArray);
 #endif // FITNESS_DATA_STRUCT_H

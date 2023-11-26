@@ -130,7 +130,7 @@ void gatherData(FITNESS_DATA * fitnessDataArray, ANALYSED_DATA *data, int lines)
             highest = fitnessDataArray[i].steps;
             sprintf(data->largestSteps, "Largest steps: %s %s", fitnessDataArray[i].date,fitnessDataArray[i].time);
         }
-        else {
+        else if (fitnessDataArray[i].steps < lowest){
             lowest = fitnessDataArray[i].steps;
             sprintf(data->fewestSteps, "Fewest steps: %s %s", fitnessDataArray[i].date,fitnessDataArray[i].time);
         }

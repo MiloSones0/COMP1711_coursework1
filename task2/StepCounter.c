@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include "FitnessDataStruct.h"
 
 int main() {
@@ -123,7 +124,7 @@ int open_file(FITNESS_DATA * fitnessDataArray) {
 void gatherData(FITNESS_DATA * fitnessDataArray, ANALYSED_DATA *data, int lines) {
     int lowest = 0;
     int highest = 0;
-    int sum = 0;
+    float sum = 0;
     for (int i = 0; i < lines; i++) { 
         if (fitnessDataArray[i].steps > highest) {
             highest = fitnessDataArray[i].steps;
@@ -135,7 +136,7 @@ void gatherData(FITNESS_DATA * fitnessDataArray, ANALYSED_DATA *data, int lines)
         }
         sum += fitnessDataArray[i].steps;
     }
-    data->mean = sum/lines;
+    data->mean = round(sum/lines);
 }
 
 longestBlock longestPeriod(FITNESS_DATA * fitnessDataArray, int lines) {

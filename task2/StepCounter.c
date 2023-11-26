@@ -59,8 +59,8 @@ int main() {
                     "Longest period end: %s %s\n",
                     data[block.start].date,
                     data[block.start].time,
-                    data[block.start + block.length].date,
-                    data[block.start + block.length].time);
+                    data[block.start + block.length - 1].date,
+                    data[block.start + block.length - 1].time);
             break;
         case 'Q':
         case 'q':
@@ -144,7 +144,7 @@ longestBlock longestPeriod(FITNESS_DATA * fitnessDataArray, int lines) {
     int last = 0;
     int length = 0;
     for (int i = 0; i < lines; i++) {
-        if (fitnessDataArray[i].steps < 500) {
+        if (fitnessDataArray[i].steps <= 500) {
             last = i;
             length = 0;
         } else {

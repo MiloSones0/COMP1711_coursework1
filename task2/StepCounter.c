@@ -8,6 +8,7 @@ int main() {
     ANALYSED_DATA analysedData = {};
     char input;
     int lines;
+    longestBlock block = {};
     while(1) {
         printf( "Menu Options:\n"
                 "A: Specify the filename to be imported\n"
@@ -27,6 +28,7 @@ int main() {
             if (lines == 0){
                 exit(1);
             }
+            printf("File successfully loaded.\n");
             gatherData(data,&analysedData,lines);
             break;
         case 'B':
@@ -51,7 +53,13 @@ int main() {
 
         case 'F':
         case 'f':
-            printf("F");
+            block = longestPeriod(data, lines);
+            printf("Longest period start: %s %s\n"
+                    "Longest period end: %s %s\n",
+                    data[block.start].date,
+                    data[block.start].time,
+                    data[block.start + block.length].date,
+                    data[block.start + block.length].time);
             break;
         case 'Q':
         case 'q':
@@ -116,7 +124,7 @@ void gatherData(FITNESS_DATA * fitnessDataArray, ANALYSED_DATA *data, int lines)
     int lowest = 0;
     int highest = 0;
     int sum = 0;
-    for (int i = 0; i < lines; i++) {
+    for (int i = 0; i < lines; i++) { 
         if (fitnessDataArray[i].steps > highest) {
             highest = fitnessDataArray[i].steps;
             sprintf(data->largestSteps, "Largest steps: %s %s", fitnessDataArray[i].date,fitnessDataArray[i].time);
@@ -128,4 +136,23 @@ void gatherData(FITNESS_DATA * fitnessDataArray, ANALYSED_DATA *data, int lines)
         sum += fitnessDataArray[i].steps;
     }
     data->mean = sum/lines;
+}
+
+longestBlock longestPeriod(FITNESS_DATA * fitnessDataArray, int lines) {
+    longestBlock block = {};
+    int last = 0;
+    int length = 0;
+    for (int i = 0; i < lines; i++) {
+        if (fitnessDataArray[i].steps < 500) {
+            last = i;
+            length = 0;
+        } else {
+            length ++;
+        }
+        if (length > block.length) {
+            block.length = length;
+            block.start = last + 1;
+        }
+    }
+    return block;
 }
